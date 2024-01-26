@@ -2,7 +2,8 @@ import { useState } from 'react'
 
 import '../App/App.module.css'
 import { ContactList } from '../ContactList/ContactList.jsx'
-import { SearchBox} from'../SearchBox/SearchBox.jsx'
+import { SearchBox } from '../SearchBox/SearchBox.jsx'
+import {ContactForm} from '../ContactForm/ContactForm.jsx'
 
 function App() {
   const contacts = [
@@ -30,6 +31,7 @@ function App() {
   return (
     <div>
       <h1>Phonebook</h1>
+      <ContactForm></ContactForm>
       <SearchBox valueIn={inputValue} onChange={ handleChange}></SearchBox>
       <ContactList allContacts={visibleUsers} ></ContactList>
       
