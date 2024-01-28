@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import '../App/App.module.css'
 import { ContactList } from '../ContactList/ContactList.jsx'
@@ -6,6 +6,7 @@ import { SearchBox } from '../SearchBox/SearchBox.jsx'
 import {ContactForm} from '../ContactForm/ContactForm.jsx'
 
 function App() {
+  
   const contacts = [
     { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
     { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
@@ -14,7 +15,19 @@ function App() {
   ]
   
   const [inputValue, setInputValue] = useState('');
-  const [users, setUsers] = useState(contacts.map(evt => (evt)))
+  const [users, setUsers] = useState(() => {
+     contacts.map(evt => (evt))
+    const savedContacts = window.localStorage.getItem("saved-contacts");
+    if (JSON.parse(savedContacts) !== null) {
+      return JSON.parse(savedContacts);
+    } else {
+      return (
+        contacts.map(evt => (evt))
+      )
+    }
+  })
+    
+
   const handleChange = even => {
     // console.log(even.target.value);
     setInputValue(even.target.value)
@@ -24,14 +37,22 @@ function App() {
   )
   console.log(visibleUsers);
 
-
-  
+  const AddUser = newUser => {
+    setUsers(prevUser => {
+      return (
+      [...prevUser, newUser]
+    )
+  })
+}
+  useEffect(() => {
+    window.localStorage.setItem("saved-contacts", JSON.stringify(users), [users])
+  })
 
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm></ContactForm>
+      <ContactForm onAdd={ AddUser}></ContactForm>
       <SearchBox valueIn={inputValue} onChange={ handleChange}></SearchBox>
       <ContactList allContacts={visibleUsers} ></ContactList>
       
