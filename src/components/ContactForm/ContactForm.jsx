@@ -9,7 +9,7 @@ import css from '../ContactForm/ContactForm.module.css'
 export const ContactForm = ({onAdd}) => {
     const nameId = useId();
     const numberId = useId();
-    const ID = useId();
+    
 
     const userSchema = Yup.object().shape(
         {
@@ -32,24 +32,23 @@ export const ContactForm = ({onAdd}) => {
             }}
             validationSchema={userSchema}
             onSubmit={(values, actions) => {
-                console.log(values)
                 actions.resetForm()
-                onAdd({id:ID, ...values})
+                onAdd({id: Date.now(), ...values})
             }}
 
         >
             <Form className={css.containerForm}>
                 <div className={ css.elemForm}>
                     <label htmlFor={ nameId}>Name</label> 
-                    <Field type="text" name="name" id={nameId}></Field>
+                    <Field type="text" name="name" id={nameId} className={ css.fildForm}></Field>
                     <ErrorMessage name="name" component="span" className={ css.error}/>
                 </div>
                 <div className={ css.elemForm}>
                     <label htmlFor={ numberId}>Number</label>
-                    <Field type="text" name="number" id={numberId}></Field>
+                    <Field type="text" name="number" id={numberId } className={ css.fildForm}></Field>
                     <ErrorMessage name="number" component="span" className={ css.error} />
                 </div>
-                <button type='submit'>Add contact</button>
+                <button type='submit' className={ css.btnForm}>Add contact</button>
             </Form>
         </Formik>
     )

@@ -1,12 +1,16 @@
-import { Contact} from '../Contact/Contact'
+import { Contact } from '../Contact/Contact'
+import css from '../ContactList/ContactList.module.css'
 
-export const ContactList = ({ allContacts }) => {
+
+export const ContactList = ({ allContacts,onDeleteContact }) => {
     // console.log(typeof(AllContacts));
     return (<div>
-        <ul>
+        <ul className={ css.allContacts}>
             {
-                allContacts.map( value => (
-                    <Contact key={value.id } contact={value} />
+                allContacts.map(value => (
+                    <li className={css.contactContainet} key={ value.id}>
+                         <Contact  contact={value} onDeleteContact={ onDeleteContact} />
+                    </li>
             )) }
         
         </ul>

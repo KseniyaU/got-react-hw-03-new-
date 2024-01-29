@@ -16,15 +16,16 @@ function App() {
   
   const [inputValue, setInputValue] = useState('');
   const [users, setUsers] = useState(() => {
-     contacts.map(evt => (evt))
+    //  contacts.map(evt => (evt))
     const savedContacts = window.localStorage.getItem("saved-contacts");
-    if (JSON.parse(savedContacts) !== null) {
-      return JSON.parse(savedContacts);
-    } else {
-      return (
-        contacts.map(evt => (evt))
-      )
-    }
+    return savedContacts ? JSON.parse(savedContacts) : contacts;
+    // if (JSON.parse(savedContacts) !== null) {
+    //   return JSON.parse(savedContacts);
+    // } else {
+    //   return (
+    //     contacts.map(evt => (evt))
+    //   )
+    // }
   })
     
 
@@ -40,21 +41,26 @@ function App() {
   const AddUser = newUser => {
     setUsers(prevUser => {
       return (
-      [...prevUser, newUser]
-    )
-  })
-}
-  useEffect(() => {
-    window.localStorage.setItem("saved-contacts", JSON.stringify(users), [users])
-  })
+        [...prevUser, newUser]
+      )
+    })
+  }
+ useEffect(() => {
+    window.localStorage.setItem('saved-contacts', JSON.stringify(users));
+  }, [users]);
 
+  const onDeleteContact = (id) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== id))
+  
+ }
+ 
 
   return (
     <div>
       <h1>Phonebook</h1>
-      <ContactForm onAdd={ AddUser}></ContactForm>
+      <ContactForm onAdd={AddUser} ></ContactForm>
       <SearchBox valueIn={inputValue} onChange={ handleChange}></SearchBox>
-      <ContactList allContacts={visibleUsers} ></ContactList>
+      <ContactList allContacts={visibleUsers} onDeleteContact={ onDeleteContact} ></ContactList>
       
     </div>
   )
